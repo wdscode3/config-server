@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="graylog.host">udp:graylog-dev.tokiomarine.com.br</Property>
+        <Property name="graylog.port">12201</Property>
+        <Property name="logFileName">api-gateway</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n" />
+        </Console>
+        <!-- <Gelf name="Gelf" host="${sys:graylog.host}" port="${sys:graylog.port}" version="1.1"
+            extractStackTrace="true" filterStackTrace="false" originHost="%host{simple}">
+            <Field name="timestamp" pattern="%d{dd MMM yyyy HH:mm:ss,SSS}" />
+            <Field name="level" pattern="%level" />
+            <Field name="simpleClassName" pattern="%C{1}" />
+            <Field name="className" pattern="%C" />
+            <Field name="server" pattern="%host" />
+            <Field name="application" pattern="sva-dps" />
+            <Field name="tag" pattern="cotadores-vida" />
+        </Gelf> -->
+        <RollingFile name="RollingFile" fileName="logs/${env:logFileName}.log" 
+				filePattern="logs/${env:logFileName}.%d{yyyy-MM-dd}.log.%i" ignoreExceptions="false">
+			<PatternLayout>
+				<Pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<SizeBasedTriggeringPolicy size="100 MB"/>				
+			</Policies>
+		</RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="Console" />
+            <!-- <AppenderRef ref="Gelf" /> -->
+            <AppenderRef ref="RollingFile" />
+        </Root>
+    </Loggers>
+</Configuration>

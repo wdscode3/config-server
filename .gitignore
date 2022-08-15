@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+/logs/api-gateway.log
+/start.sh
+/stop.sh
